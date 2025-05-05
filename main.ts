@@ -85,6 +85,10 @@ namespace kuangRobot {
     }
 
     //% block
+    //% up_value.min=0 up_value.max=180
+    //% up_value.defl=0
+    //% down_value.min=0 down_value.max=180
+    //% down_value.defl=0
     //% blockId="KuangRobot_remote" block="Remote control with command %input and servo with %in_angle up_angle %up_angle and down_angle angle %down_angle"
     export function RemoteControlRobot(input: string, in_angle:number  ,up_angle: number, down_angle: number): number {
         let parts = input.split(",")
