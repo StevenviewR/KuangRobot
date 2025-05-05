@@ -60,38 +60,51 @@ namespace kuangRobot {
     }
 
     //% block
-    //% value.min=0 value.max=1023
-    //% value.defl=512
+    export function remoteControlSetup(): void {
+        pins.setPull(DigitalPin.P8, PinPullMode.PullUp)
+        pins.setPull(DigitalPin.P13, PinPullMode.PullUp)
+        pins.setPull(DigitalPin.P14, PinPullMode.PullUp)
+        pins.setPull(DigitalPin.P15, PinPullMode.PullUp)
+        pins.setPull(DigitalPin.P16, PinPullMode.PullUp)
+    }
+
+    //% block
+    export function remoteControlSending(): void {
+        const k_x = pins.analogReadPin(AnalogReadWritePin.P2)
+        const k_y = pins.analogReadPin(AnalogReadWritePin.P1)
+        const k_s = pins.digitalReadPin(DigitalPin.P8)
+        const k_b1 = pins.digitalReadPin(DigitalPin.P13)
+        const k_b2 = pins.digitalReadPin(DigitalPin.P14)
+        const k_b3 = pins.digitalReadPin(DigitalPin.P15)
+        const k_b4 = pins.digitalReadPin(DigitalPin.P16)
+
+        // Short comma-separated message format
+        const msg = `${k_x},${k_y},${k_s},${k_b1},${k_b2},${k_b3},${k_b4}`
+        radio.sendString(msg)
+        basic.pause(1)
+    }
+
+    //% block
     //% blockId="KuangRobot_remote" block="Remote control with command %input"
     export function RemoteControlRobot(input: string): void {
+        let parts = input.split(",")
+
+        // Extract values by order
+        let k_x = parseInt(parts[0])
+        let k_y = parseInt(parts[1])
+        let k_s = parseInt(parts[2])
+        let k_b1 = parseInt(parts[3])
+        let k_b2 = parseInt(parts[4])
+        let k_b3 = parseInt(parts[5])
+        let k_b4 = parseInt(parts[6])
+
         let L_Speed = 1023
         let R_Speed = 1023
         let L_percentage = 0
         let R_percentage = 0
         let L_percentage_backward = 0
         let R_percentage_backward = 0
-        let rest_x = 0
-        let rest_y = 0
 
-        let parts = input.split(";")
-        let values: { [key: string]: number } = {}
-
-        for (let part of parts) {
-            let kv = part.split(":")
-            if (kv.length == 2) {
-                values[kv[0]] = parseInt(kv[1])
-            }
-        }
-
-        // Now you can use the values like:
-        let k_x = values["k_x"]
-        let k_y = values["k_y"]
-        let k_s = values["k_s"]
-        let k_b1 = values["k_b1"]
-        let k_b2 = values["k_b2"]
-        let k_b3 = values["k_b3"]
-        let k_b4 = values["k_b4"]
-        
         if (k_y < 506) {
             L_percentage = Math.map(k_y, 505, 0, 0, 1)
             R_percentage = Math.map(k_y, 505, 0, 0, 1)
@@ -99,14 +112,6 @@ namespace kuangRobot {
             L_percentage_backward = Math.map(k_y, 511, 1023, 0, 1)
             R_percentage_backward = Math.map(k_y, 511, 1023, 0, 1)
         }
-        /*
-        if (k_x < 506) {
-            L_percentage = Math.map(k_x, 505, 0, 0, 1)
-            R_percentage_backward = Math.map(k_x, 505, 0, 0, 1)
-        } else if (k_x > 510) {
-            L_percentage_backward = Math.map(k_x, 511, 1023, 0, 1)
-            R_percentage = Math.map(k_x, 511, 1023, 0, 1)
-        }*/
 
         if (k_x >= 507 && k_x <= 509 && k_y >= 507 && k_y <= 509) {
             L_percentage = 0
@@ -115,7 +120,7 @@ namespace kuangRobot {
             R_percentage_backward = 0
         }
 
-        if (k_b1 == 0){
+        if (k_b1 == 0) {
             pins.analogWritePin(AnalogPin.P13, 0)
             pins.analogWritePin(AnalogPin.P12, 300)
             pins.analogWritePin(AnalogPin.P15, 300)
@@ -138,29 +143,6 @@ namespace kuangRobot {
     }
 
 
-    //% block
-    export function remoteControlSetup(): void {
-        pins.setPull(DigitalPin.P8, PinPullMode.PullUp)
-        pins.setPull(DigitalPin.P13, PinPullMode.PullUp)
-        pins.setPull(DigitalPin.P14, PinPullMode.PullUp)
-        pins.setPull(DigitalPin.P15, PinPullMode.PullUp)
-        pins.setPull(DigitalPin.P16, PinPullMode.PullUp)
-    }
-
-    //% block
-    export function remoteControlSending(): void {
-        const k_x = pins.analogReadPin(AnalogReadWritePin.P2)
-        const k_y = pins.analogReadPin(AnalogReadWritePin.P1)
-        const k_s = pins.digitalReadPin(DigitalPin.P8)
-        const k_b1 = pins.digitalReadPin(DigitalPin.P13)
-        const k_b2 = pins.digitalReadPin(DigitalPin.P14)
-        const k_b3 = pins.digitalReadPin(DigitalPin.P15)
-        const k_b4 = pins.digitalReadPin(DigitalPin.P16)
-
-        const msg = `k_x:${k_x};k_y:${k_y};k_s:${k_s};k_b1:${k_b1};k_b2:${k_b2};k_b3:${k_b3};k_b4:${k_b4}`
-        radio.sendString(msg)
-        basic.pause(1)
-    }
 
 
 }
