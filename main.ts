@@ -117,6 +117,15 @@ namespace kuangRobot {
             R_percentage_backward = Math.map(k_y2, 511, 1023, 0, 1)
         }
 
+        
+        if (k_x2 < 460) {
+            L_percentage = Math.map(k_x2, 460, 0, 0, 1)
+            R_percentage_backward = Math.map(k_x2, 460, 0, 0, 1)
+        } else if (k_x2 > 550) {
+             L_percentage_backward = Math.map(k_x2, 550, 1023, 0, 1)
+            R_percentage = Math.map(k_x2, 550, 1023, 0, 1)
+        }
+
         if (k_x2 >= 507 && k_x2 <= 509 && k_y2 >= 507 && k_y2 <= 509) {
             L_percentage = 0
             R_percentage = 0
