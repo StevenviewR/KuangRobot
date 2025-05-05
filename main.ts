@@ -85,8 +85,8 @@ namespace kuangRobot {
     }
 
     //% block
-    //% blockId="KuangRobot_remote" block="Remote control with command %input and servo angle %angle"
-    export function RemoteControlRobot(input: string,  angle: number): number {
+    //% blockId="KuangRobot_remote" block="Remote control with command %input and servo with %in_angle up_angle %up_angle and down_angle angle %down_angle"
+    export function RemoteControlRobot(input: string, in_angle:number  ,up_angle: number, down_angle: number): number {
         let parts = input.split(",")
 
         let k_x2 = parseInt(parts[0])
@@ -103,6 +103,7 @@ namespace kuangRobot {
         let R_percentage = 0
         let L_percentage_backward = 0
         let R_percentage_backward = 0
+        let angle = in_angle
 
         if (k_y2 < 506) {
             L_percentage = Math.map(k_y2, 505, 0, 0, 1)
@@ -136,17 +137,12 @@ namespace kuangRobot {
         }
 
         if (k_b22 == 0) {
-            angle = angle + 1
-            if (angle >= 180) {
-                angle = 180
-            }
+            angle = up_angle
+
         }
 
         if (k_b32 == 0) {
-            angle = angle - 1
-            if (angle <= 0) {
-                angle = 0
-            }
+            angle = down_angle
         }
 
         pins.analogWritePin(AnalogPin.P13, L_Speed * L_percentage)
