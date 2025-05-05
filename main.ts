@@ -148,7 +148,7 @@ namespace kuangRobot {
             if (angle <= 0) {
                 angle = 0
             }
-            pins.servoWritePin(servoPin, 180)
+            pins.servoWritePin(servoPin, angle)
         }
 
         pins.analogWritePin(AnalogPin.P13, L_Speed * L_percentage)
