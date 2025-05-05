@@ -1,1 +1,70 @@
+namespace kuangRobot {
+
+    //% block
+    //% value.min=0 value.max=127
+    //% value.defl=18
+    //% block="Initiate the line sensor at I2C address %value"
+    export function startLineSensor(value: number): void {
+        pins.i2cWriteNumber(value, 48, NumberFormat.Int8LE, false)
+    }
+
+    //% block
+    //% value.min=0 value.max=127
+    //% value.defl=18
+    //% block="Read line sensor for LEFT motor at I2C address %value"
+    export function readLineLeft(value: number): number {
+        basic.pause(1)
+        let sensor_value = pins.i2cReadNumber(value, NumberFormat.Int8LE, false)
+        if (sensor_value <= -2) {
+            return 1023
+        } else {
+            return Math.map(sensor_value, 0, 128, 1023, 0)
+        }
+    }
+
+    //% block
+    //% value.min=0 value.max=127
+    //% value.defl=18
+    //% block="Read line sensor for RIGHT motor at I2C address %value"
+    export function readLineRight(value: number): number {
+        basic.pause(1)
+        let sensor_value = pins.i2cReadNumber(value, NumberFormat.Int8LE, false)
+        if (sensor_value <= -2) {
+            return Math.map(sensor_value, -128, -2, 1023, 0)
+        } else {
+            return 1023
+        }
+    }
+
+    //% block="Set line-following speed: left %left_speed right %right_speed"
+    //% left_speed.min=0 left_speed.max=1023
+    //% right_speed.min=0 right_speed.max=1023
+    export function setLineFollowingSpeed(left_speed: number, right_speed: number): void {
+        pins.analogWritePin(AnalogPin.P12, 0)
+        pins.analogWritePin(AnalogPin.P13, left_speed)
+        pins.analogWritePin(AnalogPin.P14, 0)
+        pins.analogWritePin(AnalogPin.P15, right_speed)
+    }
+
+    //% block="Stop robot"
+    export function robotStop(): void {
+        pins.analogWritePin(AnalogPin.P12, 0)
+        pins.analogWritePin(AnalogPin.P13, 0)
+        pins.analogWritePin(AnalogPin.P14, 0)
+        pins.analogWritePin(AnalogPin.P15, 0)
+    }
+
+    //% block
+    //% value.min=0 value.max=1023
+    //% value2.min=0 value2.max=1023
+    //% value.defl=512
+    //% value2.defl=512
+    //% blockId="KuangRobot_move" block="Drive motor at left %value and right %value2"
+    export function moveRobot(value: number, value2: number): void {
+        let leftPWM = Math.map(value, 0, 1023, 0, 1023)
+        let rightPWM = Math.map(value2, 0, 1023, 0, 1023)
+        pins.analogWritePin(AnalogPin.P13, leftPWM)
+        pins.analogWritePin(AnalogPin.P15, rightPWM)
+    }
+}
 
