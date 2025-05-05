@@ -122,17 +122,17 @@ namespace kuangRobot {
 
         if (k_b1 == 0) {
             pins.analogWritePin(AnalogPin.P13, 0)
-            pins.analogWritePin(AnalogPin.P12, 300)
-            pins.analogWritePin(AnalogPin.P15, 300)
+            pins.analogWritePin(AnalogPin.P12, 200)
+            pins.analogWritePin(AnalogPin.P15, 200)
             pins.analogWritePin(AnalogPin.P14, 0)
             basic.pause(10)
         }
 
         if (k_b4 == 0) {
-            pins.analogWritePin(AnalogPin.P13, 300)
+            pins.analogWritePin(AnalogPin.P13, 200)
             pins.analogWritePin(AnalogPin.P12, 0)
             pins.analogWritePin(AnalogPin.P15, 0)
-            pins.analogWritePin(AnalogPin.P14, 300)
+            pins.analogWritePin(AnalogPin.P14, 200)
             basic.pause(10)
         }
 
