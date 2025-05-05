@@ -99,20 +99,36 @@ namespace kuangRobot {
             L_percentage_backward = Math.map(k_y, 511, 1023, 0, 1)
             R_percentage_backward = Math.map(k_y, 511, 1023, 0, 1)
         }
-
+        /*
         if (k_x < 506) {
             L_percentage = Math.map(k_x, 505, 0, 0, 1)
             R_percentage_backward = Math.map(k_x, 505, 0, 0, 1)
         } else if (k_x > 510) {
             L_percentage_backward = Math.map(k_x, 511, 1023, 0, 1)
             R_percentage = Math.map(k_x, 511, 1023, 0, 1)
-        }
+        }*/
 
         if (k_x >= 507 && k_x <= 509 && k_y >= 507 && k_y <= 509) {
             L_percentage = 0
             R_percentage = 0
             L_percentage_backward = 0
             R_percentage_backward = 0
+        }
+
+        if (k_b1 == 0){
+            pins.analogWritePin(AnalogPin.P13, 0)
+            pins.analogWritePin(AnalogPin.P12, 300)
+            pins.analogWritePin(AnalogPin.P15, 300)
+            pins.analogWritePin(AnalogPin.P14, 0)
+            basic.pause(50)
+        }
+
+        if (k_b2 == 0) {
+            pins.analogWritePin(AnalogPin.P13, 300)
+            pins.analogWritePin(AnalogPin.P12, 0)
+            pins.analogWritePin(AnalogPin.P15, 0)
+            pins.analogWritePin(AnalogPin.P14, 300)
+            basic.pause(50)
         }
 
         pins.analogWritePin(AnalogPin.P13, L_Speed * L_percentage)
