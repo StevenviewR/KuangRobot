@@ -15,11 +15,7 @@ namespace kuangRobot {
     export function readLineLeft(value: number): number {
         basic.pause(1)
         let sensor_value = pins.i2cReadNumber(value, NumberFormat.Int8LE, false)
-        if (sensor_value <= -2) {
-            return 1023
-        } else {
-            return Math.map(sensor_value, 0, 128, 1023, 0)
-        }
+        return sensor_value <= -2 ? 1023 : Math.map(sensor_value, 0, 128, 1023, 0)
     }
 
     //% block
@@ -29,11 +25,7 @@ namespace kuangRobot {
     export function readLineRight(value: number): number {
         basic.pause(1)
         let sensor_value = pins.i2cReadNumber(value, NumberFormat.Int8LE, false)
-        if (sensor_value <= -2) {
-            return Math.map(sensor_value, -128, -2, 1023, 0)
-        } else {
-            return 1023
-        }
+        return sensor_value <= -2 ? Math.map(sensor_value, -128, -2, 1023, 0) : 1023
     }
 
     //% block="Set line-following speed: left %left_speed right %right_speed"
@@ -66,5 +58,54 @@ namespace kuangRobot {
         pins.analogWritePin(AnalogPin.P13, leftPWM)
         pins.analogWritePin(AnalogPin.P15, rightPWM)
     }
-}
 
+    //% block
+    //% value.min=0 value.max=1023
+    //% value.defl=512
+    //% blockId="KuangRobot_remote" block="Remote control with command %name and value %value"
+    export function RemoteControlRobot(name: string, value: number): void {
+        let L_Speed = 1023
+        let R_Speed = 1023
+        let L_percentage = 0
+        let R_percentage = 0
+        let L_percentage_backward = 0
+        let R_percentage_backward = 0
+        let rest_x = 0
+        let rest_y = 0
+
+        if (name == "k_y" && value < 506) {
+            L_percentage = Math.map(value, 505, 0, 0, 1)
+            R_percentage = Math.map(value, 505, 0, 0, 1)
+        } else if (name == "k_y" && value > 510) {
+            L_percentage_backward = Math.map(value, 511, 1023, 0, 1)
+            R_percentage_backward = Math.map(value, 511, 1023, 0, 1)
+        }
+
+        if (name == "k_x" && value < 506) {
+            L_percentage = Math.map(value, 505, 0, 0, 1)
+            R_percentage_backward = Math.map(value, 505, 0, 0, 1)
+        } else if (name == "k_x" && value > 510) {
+            L_percentage_backward = Math.map(value, 511, 1023, 0, 1)
+            R_percentage = Math.map(value, 511, 1023, 0, 1)
+        }
+
+        if (name == "k_x" && value >= 507 && value <= 509) {
+            rest_x = 1
+        }
+        if (name == "k_y" && value >= 507 && value <= 509) {
+            rest_y = 1
+        }
+
+        if (rest_x == 1 && rest_y == 1) {
+            L_percentage = 0
+            R_percentage = 0
+            L_percentage_backward = 0
+            R_percentage_backward = 0
+        }
+
+        pins.analogWritePin(AnalogPin.P13, L_Speed * L_percentage)
+        pins.analogWritePin(AnalogPin.P12, L_Speed * L_percentage_backward)
+        pins.analogWritePin(AnalogPin.P15, R_Speed * R_percentage)
+        pins.analogWritePin(AnalogPin.P14, R_Speed * R_percentage_backward)
+    }
+}
