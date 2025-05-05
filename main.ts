@@ -84,6 +84,8 @@ namespace kuangRobot {
         basic.pause(1)
     }
 
+    //% block
+    //% blockId="KuangRobot_remote" block="Remote control with command %input and servo %servo and angle %angle"
     export function RemoteControlRobot(input: string, servoPin: AnalogPin, angle: number): number {
         let parts = input.split(",")
 
