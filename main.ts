@@ -108,4 +108,27 @@ namespace kuangRobot {
         pins.analogWritePin(AnalogPin.P15, R_Speed * R_percentage)
         pins.analogWritePin(AnalogPin.P14, R_Speed * R_percentage_backward)
     }
+
+
+    //% block
+    export function remoteControlSetup(): void {
+        pins.setPull(DigitalPin.P8, PinPullMode.PullUp)
+        pins.setPull(DigitalPin.P13, PinPullMode.PullUp)
+        pins.setPull(DigitalPin.P14, PinPullMode.PullUp)
+        pins.setPull(DigitalPin.P15, PinPullMode.PullUp)
+        pins.setPull(DigitalPin.P16, PinPullMode.PullUp)
+    }
+
+    //% block
+    export function remoteControlSending(): void {
+        radio.sendValue("k_x", pins.analogReadPin(AnalogReadWritePin.P2))
+        radio.sendValue("k_y", pins.analogReadPin(AnalogReadWritePin.P1))
+        radio.sendValue("k_s", pins.digitalReadPin(DigitalPin.P8))
+        radio.sendValue("k_b1", pins.digitalReadPin(DigitalPin.P13))
+        radio.sendValue("k_b2", pins.digitalReadPin(DigitalPin.P14))
+        radio.sendValue("k_b3", pins.digitalReadPin(DigitalPin.P15))
+        radio.sendValue("k_b4", pins.digitalReadPin(DigitalPin.P16))
+    }
+
+
 }
