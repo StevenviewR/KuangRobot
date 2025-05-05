@@ -140,7 +140,7 @@ namespace kuangRobot {
             if (angle >= 180) {
                 angle = 180
             }
-            pins.servoWritePin(servoPin, angle)
+            pins.servoWritePin(AnalogPin.P1, angle)
             basic.pause(100)
         }
 
@@ -149,7 +149,7 @@ namespace kuangRobot {
             if (angle <= 0) {
                 angle = 0
             }
-            pins.servoWritePin(servoPin, angle)
+            pins.servoWritePin(AnalogPin.P1, angle)
             basic.pause(100)
         }
 
