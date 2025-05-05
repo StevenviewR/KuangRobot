@@ -125,15 +125,15 @@ namespace kuangRobot {
             pins.analogWritePin(AnalogPin.P12, 300)
             pins.analogWritePin(AnalogPin.P15, 300)
             pins.analogWritePin(AnalogPin.P14, 0)
-            basic.pause(50)
+            basic.pause(10)
         }
 
-        if (k_b2 == 0) {
+        if (k_b4 == 0) {
             pins.analogWritePin(AnalogPin.P13, 300)
             pins.analogWritePin(AnalogPin.P12, 0)
             pins.analogWritePin(AnalogPin.P15, 0)
             pins.analogWritePin(AnalogPin.P14, 300)
-            basic.pause(50)
+            basic.pause(10)
         }
 
         pins.analogWritePin(AnalogPin.P13, L_Speed * L_percentage)
