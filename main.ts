@@ -24,8 +24,8 @@ namespace kuangRobot {
     //% block="Read line sensor for RIGHT motor at I2C address %value"
     export function readLineRight(value: number): number {
         basic.pause(1)
-        let sensor_value = pins.i2cReadNumber(value, NumberFormat.Int8LE, false)
-        return sensor_value <= -2 ? Math.map(sensor_value, -128, -2, 1023, 0) : 1023
+        let sensor_value2 = pins.i2cReadNumber(value, NumberFormat.Int8LE, false)
+        return sensor_value2 <= -2 ? Math.map(sensor_value2, -128, -2, 1023, 0) : 1023
     }
 
     //% block="Set line-following speed: left %left_speed right %right_speed"
@@ -84,19 +84,16 @@ namespace kuangRobot {
         basic.pause(1)
     }
 
-    //% block
-    //% blockId="KuangRobot_remote" block="Remote control with command %input"
-    export function RemoteControlRobot(input: string): void {
+    export function RemoteControlRobot(input: string, servoPin: AnalogPin, angle: number): number {
         let parts = input.split(",")
 
-        // Extract values by order
-        let k_x = parseInt(parts[0])
-        let k_y = parseInt(parts[1])
-        let k_s = parseInt(parts[2])
-        let k_b1 = parseInt(parts[3])
-        let k_b2 = parseInt(parts[4])
-        let k_b3 = parseInt(parts[5])
-        let k_b4 = parseInt(parts[6])
+        let k_x2 = parseInt(parts[0])
+        let k_y2 = parseInt(parts[1])
+        let k_s2 = parseInt(parts[2])
+        let k_b12 = parseInt(parts[3])
+        let k_b22 = parseInt(parts[4])
+        let k_b32 = parseInt(parts[5])
+        let k_b42 = parseInt(parts[6])
 
         let L_Speed = 1023
         let R_Speed = 1023
@@ -105,22 +102,22 @@ namespace kuangRobot {
         let L_percentage_backward = 0
         let R_percentage_backward = 0
 
-        if (k_y < 506) {
-            L_percentage = Math.map(k_y, 505, 0, 0, 1)
-            R_percentage = Math.map(k_y, 505, 0, 0, 1)
-        } else if (k_y > 510) {
-            L_percentage_backward = Math.map(k_y, 511, 1023, 0, 1)
-            R_percentage_backward = Math.map(k_y, 511, 1023, 0, 1)
+        if (k_y2 < 506) {
+            L_percentage = Math.map(k_y2, 505, 0, 0, 1)
+            R_percentage = Math.map(k_y2, 505, 0, 0, 1)
+        } else if (k_y2 > 510) {
+            L_percentage_backward = Math.map(k_y2, 511, 1023, 0, 1)
+            R_percentage_backward = Math.map(k_y2, 511, 1023, 0, 1)
         }
 
-        if (k_x >= 507 && k_x <= 509 && k_y >= 507 && k_y <= 509) {
+        if (k_x2 >= 507 && k_x2 <= 509 && k_y2 >= 507 && k_y2 <= 509) {
             L_percentage = 0
             R_percentage = 0
             L_percentage_backward = 0
             R_percentage_backward = 0
         }
 
-        if (k_b1 == 0) {
+        if (k_b12 == 0) {
             pins.analogWritePin(AnalogPin.P13, 0)
             pins.analogWritePin(AnalogPin.P12, 200)
             pins.analogWritePin(AnalogPin.P15, 200)
@@ -128,7 +125,7 @@ namespace kuangRobot {
             basic.pause(10)
         }
 
-        if (k_b4 == 0) {
+        if (k_b42 == 0) {
             pins.analogWritePin(AnalogPin.P13, 200)
             pins.analogWritePin(AnalogPin.P12, 0)
             pins.analogWritePin(AnalogPin.P15, 0)
@@ -136,12 +133,29 @@ namespace kuangRobot {
             basic.pause(10)
         }
 
+        if (k_b22 == 0) {
+            angle = angle + 1
+            if (angle >= 180) {
+                angle = 180
+            }
+            pins.servoWritePin(servoPin, angle)
+        }
+
+        if (k_b32 == 0) {
+            angle = angle - 1
+            if (angle <= 0) {
+                angle = 0
+            }
+            pins.servoWritePin(servoPin, 180)
+        }
+
         pins.analogWritePin(AnalogPin.P13, L_Speed * L_percentage)
         pins.analogWritePin(AnalogPin.P12, L_Speed * L_percentage_backward)
         pins.analogWritePin(AnalogPin.P15, R_Speed * R_percentage)
         pins.analogWritePin(AnalogPin.P14, R_Speed * R_percentage_backward)
-    }
 
+        return angle
+    }
 
 
 
