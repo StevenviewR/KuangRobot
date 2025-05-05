@@ -85,8 +85,8 @@ namespace kuangRobot {
     }
 
     //% block
-    //% blockId="KuangRobot_remote" block="Remote control with command %input and servo %servo and angle %angle"
-    export function RemoteControlRobot(input: string, servoPin: AnalogPin, angle: number): number {
+    //% blockId="KuangRobot_remote" block="Remote control with command %input and servo angle %angle"
+    export function RemoteControlRobot(input: string,  angle: number): number {
         let parts = input.split(",")
 
         let k_x2 = parseInt(parts[0])
@@ -140,8 +140,6 @@ namespace kuangRobot {
             if (angle >= 180) {
                 angle = 180
             }
-            pins.servoWritePin(AnalogPin.P1, angle)
-            basic.pause(1000)
         }
 
         if (k_b32 == 0) {
@@ -149,8 +147,6 @@ namespace kuangRobot {
             if (angle <= 0) {
                 angle = 0
             }
-            pins.servoWritePin(AnalogPin.P1, angle)
-            basic.pause(1000)
         }
 
         pins.analogWritePin(AnalogPin.P13, L_Speed * L_percentage)
