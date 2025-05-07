@@ -165,7 +165,13 @@ namespace kuangRobot {
 
         return angle
     }
+    //% block
+    //% LeftMotorPin1.defl=12
+    //% LeftMotorPin2.defl=13
+    //% RightMotorPin1.defl=14
+    //% RightMotorPin2.defl=15
+    //% blockId="KuangRobot_motorDriverPins" block="Motor Driver Pin Left=  %LeftMotorPin1 %LeftMotorPin2 | %RightMotorPin1 %RightMotorPin2"
+    export function motorDriverPins(LeftMotorPin1: AnalogPin, LeftMotorPin2: AnalogPin, RightMotorPin1: AnalogPin, RightMotorPin2: AnalogPin): void {
 
-
-
+    }
 }
