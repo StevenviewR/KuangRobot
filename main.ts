@@ -175,4 +175,15 @@ namespace kuangRobot {
     export function motorDriverPins(LeftMotorPin1: AnalogPin, LeftMotorPin2: AnalogPin, RightMotorPin1: AnalogPin, RightMotorPin2: AnalogPin): void {
 
     }
+
+    //% block
+    //% blockId="servo" block="Target Servo Angle: %targetAngle  Current_Angle: %currentAngle ServoPin: %servoPin"
+    export function servoMove(targetAngle: number, currentAngle:number, servoPin: AnalogPin) : number {
+        if (targetAngle != currentAngle) {
+            currentAngle = targetAngle
+            pins.servoWritePin(servoPin, currentAngle)
+            basic.pause(500)
+        }
+        return currentAngle
+    }
 }
