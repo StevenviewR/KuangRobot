@@ -60,7 +60,7 @@ namespace kuangRobot {
     }
 
     //% block
-    //% blockId="UpDown:%UpDown LeftRight:%LeftRight B1:%B1 B2:%B2 B3:%B3 B4:%B4"
+    //% blockId="UpDown: %UpDown LeftRight: %LeftRight B1: %B1 B2: %B2 B3: %B3 B4: %B4"
     export function remoteControlSetup(UpDown: AnalogPin, LeftRight: AnalogPin, B1: AnalogPin, B2:AnalogPin, B3:AnalogPin, B4:AnalogPin): void {
         pins.setPull(DigitalPin.P8, PinPullMode.PullUp)
         pins.setPull(DigitalPin.P13, PinPullMode.PullUp)
