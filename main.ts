@@ -90,7 +90,7 @@ namespace kuangRobot {
     //% high.defl=0
     //% low.min=0 down_value.max=180
     //% low.defl=0
-    //% blockId="KuangRobot_remote" block="Remote control with command %input and input from current %in_angle low: %low  high: %high"
+    //% blockId="KuangRobot_remote" block="Receive Remote control with command %input and input from current %in_angle low: %low  high: %high"
     export function RemoteControlRobot(input: string, in_angle:number  ,low: number, high: number): number {
         let parts = input.split(",")
 
