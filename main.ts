@@ -86,11 +86,11 @@ namespace kuangRobot {
     }
 
     //% block
-    //% up_value.min=0 up_value.max=180
-    //% up_value.defl=0
-    //% down_value.min=0 down_value.max=180
-    //% down_value.defl=0
-    //% blockId="KuangRobot_remote" block="Remote control with command %input and input from %in_angle low: %low and high: %high"
+    //% high.min=0 up_value.max=180
+    //% high.defl=0
+    //% low.min=0 down_value.max=180
+    //% low.defl=0
+    //% blockId="KuangRobot_remote" block="Remote control with command %input and input from %in_angle low: %low  high: %high"
     export function RemoteControlRobot(input: string, in_angle:number  ,low: number, high: number): number {
         let parts = input.split(",")
 
