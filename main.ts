@@ -90,8 +90,8 @@ namespace kuangRobot {
     //% up_value.defl=0
     //% down_value.min=0 down_value.max=180
     //% down_value.defl=0
-    //% blockId="KuangRobot_remote" block="Remote control with command %input and servo with %in_angle up_angle %up_angle and down_angle angle %down_angle"
-    export function RemoteControlRobot(input: string, in_angle:number  ,up_angle: number, down_angle: number): number {
+    //% blockId="KuangRobot_remote" block="Remote control with command %input and input from %in_angle low: %low and high: %high"
+    export function RemoteControlRobot(input: string, in_angle:number  ,low: number, high: number): number {
         let parts = input.split(",")
 
         let k_x2 = parseInt(parts[0])
@@ -151,12 +151,12 @@ namespace kuangRobot {
         }
 
         if (k_b22 == 0) {
-            angle = up_angle
+            angle = high
 
         }
 
         if (k_b32 == 0) {
-            angle = down_angle
+            angle = low
         }
 
         pins.analogWritePin(AnalogPin.P13, L_Speed * L_percentage)
