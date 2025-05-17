@@ -116,8 +116,8 @@ namespace kuangRobot {
         // Combine movement
         // Differential drive logic: 
         // Left = y + x, Right = y - x
-        let leftPower = y + x
-        let rightPower = y - x
+        let leftPower = y - x
+        let rightPower = y + x
 
         // Clamp to [-1, 1]
         leftPower = Math.max(-1, Math.min(1, leftPower))
