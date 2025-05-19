@@ -178,10 +178,10 @@ namespace kuangRobot {
         }
 
         // Apply final motor PWM values
-        pins.analogWritePin(AnalogPin.P13, R_pwm_fwd)
-        pins.analogWritePin(AnalogPin.P12, R_pwm_bwd)
-        pins.analogWritePin(AnalogPin.P15, L_pwm_fwd)
-        pins.analogWritePin(AnalogPin.P14, L_pwm_bwd)
+        pins.analogWritePin(AnalogPin.P13, L_pwm_fwd)
+        pins.analogWritePin(AnalogPin.P12, L_pwm_bwd)
+        pins.analogWritePin(AnalogPin.P15, R_pwm_fwd)
+        pins.analogWritePin(AnalogPin.P14, R_pwm_bwd)
 
         return in_angle
     }
