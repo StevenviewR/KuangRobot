@@ -116,8 +116,8 @@ namespace kuangRobot {
         // Combine movement
         // Differential drive logic: 
         // Left = y + x, Right = y - x
-        let leftPower = -(y + x)
-        let rightPower = -(y - x)
+        let leftPower = (y - x)
+        let rightPower = (y + x)
 
         // Clamp to [-1, 1]
         leftPower = Math.max(-1, Math.min(1, leftPower))
@@ -178,10 +178,10 @@ namespace kuangRobot {
         }
 
         // Apply final motor PWM values
-        pins.analogWritePin(AnalogPin.P13, L_pwm_fwd)
-        pins.analogWritePin(AnalogPin.P12, L_pwm_bwd)
-        pins.analogWritePin(AnalogPin.P15, R_pwm_fwd)
-        pins.analogWritePin(AnalogPin.P14, R_pwm_bwd)
+        pins.analogWritePin(AnalogPin.P13, L_pwm_bwd)
+        pins.analogWritePin(AnalogPin.P12, L_pwm_fwd)
+        pins.analogWritePin(AnalogPin.P15, R_pwm_bwd)
+        pins.analogWritePin(AnalogPin.P14, R_pwm_fwd)
 
         return in_angle
     }
