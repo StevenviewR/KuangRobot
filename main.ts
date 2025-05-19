@@ -106,7 +106,7 @@ namespace kuangRobot {
         let deadzone = 40
 
         // Normalize inputs to -1 to 1
-        let x = (k_x2 - center) / center
+        let x = (center - k_x2 ) / center
         let y = (k_y2 - center) / center
 
         // Apply deadzone
