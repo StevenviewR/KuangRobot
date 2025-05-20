@@ -13,7 +13,7 @@ namespace kuangRobot {
     //% value.defl=18
     //% block="Read line sensor for LEFT motor at I2C address %value"
     export function readLineLeft(value: number): number {
-        basic.pause(1)
+        //basic.pause(1)
         let sensor_value = pins.i2cReadNumber(value, NumberFormat.Int8LE, false)
         return sensor_value <= -2 ? 1023 : Math.map(sensor_value, 0, 128, 1023, 0)
     }
@@ -23,7 +23,7 @@ namespace kuangRobot {
     //% value.defl=18
     //% block="Read line sensor for RIGHT motor at I2C address %value"
     export function readLineRight(value: number): number {
-        basic.pause(1)
+        //basic.pause(1)
         let sensor_value2 = pins.i2cReadNumber(value, NumberFormat.Int8LE, false)
         return sensor_value2 <= -2 ? Math.map(sensor_value2, -128, -2, 1023, 0) : 1023
     }
