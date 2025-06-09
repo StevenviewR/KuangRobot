@@ -260,7 +260,7 @@ namespace kuangRobot {
             //backward
             basic.showIcon(IconNames.Angry)
         }
-        else if (leftPower < 0 && rightPower >= 0) {
+        else if (leftPower >= 0 && rightPower < 0) {
             // Turn right
             basic.showLeds(`
         . . # . .
@@ -270,7 +270,7 @@ namespace kuangRobot {
         . . # . .
         `);
         }
-        else if (leftPower >= 0 && rightPower < 0) {
+        else if (leftPower < 0 && rightPower >= 0) {
             // Turn left
             basic.showLeds(`
         . . # . .
@@ -286,20 +286,22 @@ namespace kuangRobot {
 
         // Button overrides
         if (k_b12 == 0) {
+            basic.showIcon(IconNames.Heart);
             music.play(
                 music.builtinPlayableSoundEffect(soundExpression.giggle),
                 music.PlaybackMode.UntilDone
             );
-            basic.showIcon(IconNames.Heart);
+
 
         }
 
         if (k_b42 == 0) {
-            basic.showString("Hello!")
+
             music.play(
                 music.builtinPlayableSoundEffect(soundExpression.hello),
                 music.PlaybackMode.UntilDone
             );
+            basic.showString("Hello!")
         }
 
 
