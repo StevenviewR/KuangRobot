@@ -254,10 +254,7 @@ namespace kuangRobot {
         if (leftPower >= 0 && rightPower >= 0) {
             //forward
             basic.showIcon(IconNames.Happy);
-            music.play(
-                music.builtinPlayableSoundEffect(soundExpression.giggle),
-                music.PlaybackMode.UntilDone
-            );
+
         }
         else if (leftPower < 0 && rightPower < 0) {
             //backward
@@ -268,10 +265,6 @@ namespace kuangRobot {
         . # # # .
         . . # . .
         `);
-            music.play(
-                music.builtinPlayableSoundEffect(soundExpression.yawn),
-                music.PlaybackMode.UntilDone
-            );
         }
         else if (leftPower >= 0 && rightPower < 0) {
             // Turn left
@@ -282,10 +275,6 @@ namespace kuangRobot {
         . # . . .
         . . # . .
         `);
-            music.play(
-                music.builtinPlayableSoundEffect(soundExpression.spring),
-                music.PlaybackMode.UntilDone
-            );
         }
         else if (leftPower < 0 && rightPower >= 0) {
             // Turn right
@@ -296,17 +285,9 @@ namespace kuangRobot {
         . # . . .
         . . # . .
         `);
-            music.play(
-                music.builtinPlayableSoundEffect(soundExpression.spring),
-                music.PlaybackMode.UntilDone
-            );
         }
-
-
-        // Stop condition
-        if (x == 0 && y == 0) {
+        else {
             basic.showIcon(IconNames.Heart);
-            music.play(music.builtinPlayableSoundEffect(soundExpression.hello), music.PlaybackMode.UntilDone);
         }
 
         // Button overrides
@@ -319,10 +300,7 @@ namespace kuangRobot {
         . # . . .
         . . # . .
         `);
-            music.play(
-                music.builtinPlayableSoundEffect(soundExpression.spring),
-                music.PlaybackMode.UntilDone
-            );
+
         }
 
         if (k_b42 == 0) {
@@ -334,10 +312,6 @@ namespace kuangRobot {
         . # . . .
         . . # . .
         `);
-            music.play(
-                music.builtinPlayableSoundEffect(soundExpression.spring),
-                music.PlaybackMode.UntilDone
-            );
 
         }
 
