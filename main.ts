@@ -61,7 +61,7 @@ namespace kuangRobot {
 
     //% block
     //% blockId="remoteControlSetup" block=" Remote Control Setup UpDown (Y): %UpDown LeftRight (X): %LeftRight B1: %B1 B2: %B2 B3: %B3 B4: %B4"
-    export function remoteControlSetup(UpDown: AnalogPin, LeftRight: AnalogPin, B1: AnalogPin, B2:AnalogPin, B3:AnalogPin, B4:AnalogPin): void {
+    export function remoteControlSetup(UpDown: AnalogPin, LeftRight: AnalogPin, B1: AnalogPin, B2: AnalogPin, B3: AnalogPin, B4: AnalogPin): void {
         pins.setPull(DigitalPin.P8, PinPullMode.PullUp)
         pins.setPull(DigitalPin.P13, PinPullMode.PullUp)
         pins.setPull(DigitalPin.P14, PinPullMode.PullUp)
@@ -106,7 +106,7 @@ namespace kuangRobot {
         let deadzone = 40
 
         // Normalize inputs to -1 to 1
-        let x = (center - k_x2 ) / center
+        let x = (center - k_x2) / center
         let y = (k_y2 - center) / center
 
         // Apply deadzone
@@ -200,7 +200,7 @@ namespace kuangRobot {
 
     //% block
     //% blockId="servo" block="Target Servo Angle: %targetAngle  Current Servo Angle: %currentAngle ServoPin: %servoPin"
-    export function servoMove(targetAngle: number, currentAngle:number, servoPin: AnalogPin) : number {
+    export function servoMove(targetAngle: number, currentAngle: number, servoPin: AnalogPin): number {
         if (targetAngle != currentAngle) {
             currentAngle = targetAngle
             pins.servoWritePin(servoPin, currentAngle)
@@ -208,4 +208,141 @@ namespace kuangRobot {
         }
         return currentAngle
     }
+
+    //% block
+    //% high.min=0 up_value.max=180
+    //% high.defl=0
+    //% low.min=0 down_value.max=180
+    //% low.defl=0
+    //% blockId="KuangRobot_FaceExpress" block="Receive Remote control with command %input for Face Expression"
+    export function RemoteControlRobotFace(input: string): void {
+        let parts = input.split(",")
+
+        let k_x2 = parseInt(parts[0])
+        let k_y2 = parseInt(parts[1])
+        let k_s2 = parseInt(parts[2])
+        let k_b12 = parseInt(parts[3])
+        let k_b22 = parseInt(parts[4])
+        let k_b32 = parseInt(parts[5])
+        let k_b42 = parseInt(parts[6])
+
+        let center = 512
+        let deadzone = 40
+
+        // Normalize inputs to -1 to 1
+        let x = (center - k_x2) / center
+        let y = (k_y2 - center) / center
+
+        // Apply deadzone
+        if (Math.abs(x) < deadzone / center) x = 0
+        if (Math.abs(y) < deadzone / center) y = 0
+
+        // Combine movement
+        // Differential drive logic: 
+        // Left = y + x, Right = y - x
+        let leftPower = (y - x)
+        let rightPower = (y + x)
+
+        // Clamp to [-1, 1]
+        leftPower = Math.max(-1, Math.min(1, leftPower))
+        rightPower = Math.max(-1, Math.min(1, rightPower))
+
+        let L_Speed = 1023
+        let R_Speed = 1023
+
+        // Convert to forward/backward PWM values
+        if (leftPower >= 0 && rightPower >= 0) {
+            //forward
+            basic.showIcon(IconNames.Happy);
+            music.play(
+                music.builtinPlayableSoundEffect(soundExpression.giggle),
+                music.PlaybackMode.UntilDone
+            );
+        }
+        else if (leftPower < 0 && rightPower < 0) {
+            //backward
+            basic.showLeds(`
+        . . # . .
+        . . # . .
+        # . # . #
+        . # # # .
+        . . # . .
+        `);
+            music.play(
+                music.builtinPlayableSoundEffect(soundExpression.yawn),
+                music.PlaybackMode.UntilDone
+            );
+        }
+        else if (leftPower >= 0 && rightPower < 0) {
+            // Turn left
+            basic.showLeds(`
+        . . # . .
+        . # . . .
+        # # # # #
+        . # . . .
+        . . # . .
+        `);
+            music.play(
+                music.builtinPlayableSoundEffect(soundExpression.spring),
+                music.PlaybackMode.UntilDone
+            );
+        }
+        else if (leftPower < 0 && rightPower >= 0) {
+            // Turn right
+            basic.showLeds(`
+        . . # . .
+        . # . . .
+        # # # # #
+        . # . . .
+        . . # . .
+        `);
+            music.play(
+                music.builtinPlayableSoundEffect(soundExpression.spring),
+                music.PlaybackMode.UntilDone
+            );
+        }
+
+
+        // Stop condition
+        if (x == 0 && y == 0) {
+            basic.showIcon(IconNames.Heart);
+            music.play(music.builtinPlayableSoundEffect(soundExpression.hello), music.PlaybackMode.UntilDone);
+        }
+
+        // Button overrides
+        if (k_b12 == 0) {
+            // Turn left
+            basic.showLeds(`
+        . . # . .
+        . # . . .
+        # # # # #
+        . # . . .
+        . . # . .
+        `);
+            music.play(
+                music.builtinPlayableSoundEffect(soundExpression.spring),
+                music.PlaybackMode.UntilDone
+            );
+        }
+
+        if (k_b42 == 0) {
+            // Turn right
+            basic.showLeds(`
+        . . # . .
+        . # . . .
+        # # # # #
+        . # . . .
+        . . # . .
+        `);
+            music.play(
+                music.builtinPlayableSoundEffect(soundExpression.spring),
+                music.PlaybackMode.UntilDone
+            );
+
+        }
+
+
+    }
+
+
 }
