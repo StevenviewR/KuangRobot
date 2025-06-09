@@ -251,22 +251,26 @@ namespace kuangRobot {
         let R_Speed = 1023
 
         // Convert to forward/backward PWM values
-        if (leftPower >= 0 && rightPower >= 0) {
+        if (leftPower > 0 && rightPower > 0) {
             //forward
-            basic.showIcon(IconNames.Happy);
+            basic.showIcon(IconNames.Asleep);
 
         }
-        else if (leftPower >= 0 && rightPower >= 0) {
+        else if (leftPower < 0 && rightPower < 0) {
             //backward
+            basic.showIcon(IconNames.Angry)
+        }
+        else if (leftPower < 0 && rightPower >= 0) {
+            // Turn right
             basic.showLeds(`
         . . # . .
-        . . # . .
-        # . # . #
-        . # # # .
+        . . . # .
+        # # # # #
+        . . . # .
         . . # . .
         `);
         }
-        else if (leftPower < 0 && rightPower >= 0) {
+        else if (leftPower >= 0 && rightPower < 0) {
             // Turn left
             basic.showLeds(`
         . . # . .
@@ -276,18 +280,8 @@ namespace kuangRobot {
         . . # . .
         `);
         }
-        else if (leftPower >= 0 && rightPower < 0) {
-            // Turn right
-            basic.showLeds(`
-        . . # . .
-        . # . . .
-        # # # # #
-        . # . . .
-        . . # . .
-        `);
-        }
         else {
-            basic.showIcon(IconNames.Heart);
+            basic.showIcon(IconNames.Happy);
         }
 
         // Button overrides
