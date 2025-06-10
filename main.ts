@@ -285,7 +285,7 @@ namespace kuangRobot {
         }
 
         // Button overrides
-        if (k_b12 == 0) {
+        if (k_b22 == 0 || k_b32 == 0) {
             basic.showIcon(IconNames.Heart);
             music.play(
                 music.builtinPlayableSoundEffect(soundExpression.giggle),
@@ -295,7 +295,7 @@ namespace kuangRobot {
 
         }
 
-        if (k_b42 == 0) {
+        if (k_s2 == 0) {
 
             music.play(
                 music.builtinPlayableSoundEffect(soundExpression.hello),
